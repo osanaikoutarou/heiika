@@ -1,0 +1,138 @@
+<title>__TITLE__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: 1カラムの記事。上に「見出しだけ読む」目次、下に本文。階層は番号・字下げ・見出しの大きさの3つで示す */
+:root {
+  --paper: #f4f6f5; --surface: #ffffff; --ink: #1c2320; --muted: #5a6762; --line: #d6ddd9; --chip: #eaefec;
+  --accent: #2b6a54; --speaker: #74499d; --over: #b03a2e;
+  --f-body: "BIZ UDPGothic", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+  --f-head: "BIZ UDPMincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #131816; --surface: #1a201d; --ink: #e5ebe8; --muted: #9ba8a2; --line: #2d3632; --chip: #232b27;
+    --accent: #6fc3a2; --speaker: #bc98e0; --over: #ef8a7e; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #131816; --surface: #1a201d; --ink: #e5ebe8; --muted: #9ba8a2; --line: #2d3632; --chip: #232b27;
+  --accent: #6fc3a2; --speaker: #bc98e0; --over: #ef8a7e; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.75; }
+.wrap { max-width: 720px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 64px; }
+.eyebrow { font-size: 12px; color: var(--muted); letter-spacing: .04em; margin: 0 0 6px; }
+h1 { font-family: var(--f-head); font-size: 23px; line-height: 1.45; margin: 0 0 10px; text-wrap: balance; }
+.legend { font-size: 12px; color: var(--muted); margin: 0 0 16px; }
+.lead { margin: 0 0 20px; }
+
+.outline { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin-bottom: 28px; }
+.outline summary { cursor: pointer; font-weight: 700; font-size: 14px; }
+.outline ol { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 4px; }
+.outline li a { color: inherit; text-decoration: none; display: flex; gap: 8px; align-items: baseline; }
+.outline li a:hover .t, .outline li a:focus-visible .t { text-decoration: underline; }
+.outline .n { font-family: var(--f-mono); font-size: 12px; color: var(--accent); min-width: 2.6em; flex: none; }
+.outline .lv3 { padding-left: 1.6em; font-size: 14px; color: var(--muted); }
+.outline .lv4 { padding-left: 3.2em; font-size: 13px; color: var(--muted); }
+
+.sec2 { margin-bottom: 26px; }
+.h2 { display: flex; gap: 10px; align-items: baseline; margin: 0 0 8px; padding-bottom: 6px; border-bottom: 2px solid var(--ink); }
+.h2 .n { font-family: var(--f-mono); font-size: 15px; color: var(--accent); flex: none; }
+.h2 .t { font-family: var(--f-head); font-size: 19px; line-height: 1.5; text-wrap: balance; min-width: 0; }
+.subs { margin-top: 12px; padding-left: 14px; border-left: 3px solid var(--line); display: grid; gap: 16px; }
+.h3 { display: flex; gap: 8px; align-items: baseline; margin: 0 0 4px; }
+.h3 .n { font-family: var(--f-mono); font-size: 13px; color: var(--accent); flex: none; }
+.h3 .t { font-weight: 700; font-size: 16px; line-height: 1.55; min-width: 0; }
+.h4 .t { font-size: 15px; }
+.score.over { color: var(--over); background: transparent; border: 1px solid var(--over); }
+.score { font-family: var(--f-mono); font-size: 11px; color: var(--muted); background: var(--chip); border-radius: 4px; padding: 0 6px; margin-left: 6px; white-space: nowrap; flex: none; }
+ul.body { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
+ul.body ul { margin: 4px 0 0; padding-left: 1.1em; display: grid; gap: 2px; }
+ul.body li { overflow-wrap: anywhere; }
+li.who > span:first-child { color: var(--speaker); font-weight: 700; }
+.prose p { margin: 0 0 .7em; }
+.prose p.expl { color: var(--muted); font-size: 14px; border-left: 3px solid var(--line); padding-left: 10px; }
+.prose p:last-child { margin-bottom: 0; }
+.empty { color: var(--muted); font-size: 13px; margin: 0; }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+
+<div class="wrap">
+  <p class="eyebrow" id="eyebrow"></p>
+  <h1 id="title"></h1>
+  <p class="legend">見出しは書き手（AI）が付けた要旨です。本文は元文から写した中身です。灰色の数字は、そのセクションの文の難しさです。赤は上限を超えたセクションです。</p>
+  <div class="lead" id="lead"></div>
+  <details class="outline" open>
+    <summary>見出しだけ読む</summary>
+    <ol id="outline"></ol>
+  </details>
+  <main id="article"></main>
+</div>
+
+<script type="application/json" id="data">__DATA__</script>
+<script>
+const D = JSON.parse(document.getElementById("data").textContent);
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+// 「・」と字下げ（2文字で1段）の行を、入れ子のリストにする
+function list(lines) {
+  if (!lines.length) return "";
+  const root = { kids: [] }, stack = [{ ind: -1, node: root }];
+  for (const raw of lines) {
+    const ind = (raw.length - raw.trimStart().length) / 2;
+    const text = raw.trim().replace(/^・/, "");
+    const item = { text, kids: [] };
+    while (stack[stack.length - 1].ind >= ind) stack.pop();
+    stack[stack.length - 1].node.kids.push(item);
+    stack.push({ ind, node: item });
+  }
+  const render = (items) => items.map((it) => {
+    const m = it.kids.length && it.text.endsWith(":") ? it.text.slice(0, -1) : null;
+    const label = m !== null ? `<span>${esc(m)}</span>` : esc(it.text);
+    return `<li class="${m !== null ? "who" : ""}">${label}${it.kids.length ? `<ul>${render(it.kids)}</ul>` : ""}</li>`;
+  }).join("");
+  return `<ul class="body">${render(root.kids)}</ul>`;
+}
+
+// 番号を振る（レベル2 → 1, 2…／レベル3 → 1-1…）
+const counters = [0, 0, 0, 0, 0];
+for (const s of D.sections) {
+  if (s.level === 1) continue;
+  counters[s.level]++;
+  for (let l = s.level + 1; l < counters.length; l++) counters[l] = 0;
+  s.num = counters.slice(2, s.level + 1).join("-");
+  s.anchor = "s" + s.num.replace(/-/g, "_");
+}
+const topSec = D.sections.find((s) => s.level === 1);
+$("eyebrow").textContent = D.eyebrow;
+$("title").textContent = topSec.heading;
+$("lead").innerHTML = list(topSec.lines);
+$("outline").innerHTML = D.sections.filter((s) => s.level > 1).map((s) =>
+  `<li class="lv${s.level}"><a href="#${s.anchor}"><span class="n">${s.num}</span><span class="t">${esc(s.heading)}</span></a></li>`).join("");
+
+// レベル2をカード状の塊にし、その下の階層を字下げした枠に入れる
+let html = "", open2 = false, openSubs = false;
+const close = () => { if (openSubs) html += "</div>"; if (open2) html += "</section>"; openSubs = open2 = false; };
+for (const s of D.sections) {
+  if (s.level === 1) continue;
+  const LIMIT = D.limit || 150;
+  const score = `<span class="score${s.score > LIMIT ? " over" : ""}">${s.score.toFixed(1)}点${s.score > LIMIT ? `・${LIMIT}超` : ""}</span>`;
+  const para = (p) => p.startsWith("解説") ? `<p class="expl">${esc(p)}</p>` : `<p>${esc(p)}</p>`;
+  const body = s.paras && s.paras.length ? `<div class="prose">${s.paras.map(para).join("")}</div>` : (s.lines.length ? list(s.lines) : "");
+  if (s.level === 2) {
+    close();
+    html += `<section class="sec2" id="${s.anchor}"><h2 class="h2"><span class="n">${s.num}</span><span class="t">${esc(s.heading)}</span>${score}</h2>${body}`;
+    open2 = true;
+  } else {
+    if (!openSubs) { html += `<div class="subs">`; openSubs = true; }
+    const lv = s.level === 3 ? "h3" : "h3 h4";
+    html += `<div id="${s.anchor}" style="${s.level > 3 ? "padding-left:14px" : ""}"><h3 class="${lv}"><span class="n">${s.num}</span><span class="t">${esc(s.heading)}</span>${score}</h3>${body || ""}</div>`;
+  }
+}
+close();
+$("article").innerHTML = html;
+</script>

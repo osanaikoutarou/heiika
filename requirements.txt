@@ -1,0 +1,6 @@
+spacy==3.8.16
+ginza==5.3.0
+ja_ginza==5.3.0
+SudachiPy==0.6.11
+SudachiDict-core==20260723
+wordfreq==3.1.1
