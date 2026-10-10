@@ -39,7 +39,7 @@ TOOL=$HEIIKA/tools
 
 ## 出力先
 - 入力がファイルなら、同じフォルダに `〈元の名前〉.rikai.json`。貼り付けなら scratchpad に置き、パスを伝える。
-- 人が読む形: `$PY $TOOL/rikai.py render 出力.json`（プログラム風のテキスト）。スマホで見るなら `$PY $TOOL/rikai.py html 出力.json 出力.html "ページ名"`。
+- 人が読む形: `$PY $TOOL/rikai.py render 出力.json`（プログラム風のテキスト）。
 
 ## 報告
 ```
