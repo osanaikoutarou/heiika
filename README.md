@@ -62,3 +62,32 @@ $HEIIKA/.venv/bin/python $HEIIKA/tools/c_metrics.py 文章.md --detail
 作った経緯と、何が測れて何が測れなかったかは、ブログに書きました（公開したらここにリンクを置きます）。
 
 要点だけ: 文の形の難しさは点数にできて、文を切るだけで意味をほとんど落とさずに読みやすくなります。ただ、点数が低いことと分かることは別で、構造の難しさは文の点数には出ません。構造を取り出して組み直すと読みやすくなり、その効果は「つながりの点数」のほうに出ます。
+
+## 参考にしたもの
+
+### 使っているライブラリ
+| ライブラリ | 用途 | ライセンス |
+|---|---|---|
+| [GiNZA](https://github.com/megagonlabs/ginza)（ja_ginza） | 日本語の形態素解析・係り受け・固有表現 | MIT |
+| [spaCy](https://spacy.io) | GiNZA の土台 | MIT |
+| [SudachiPy](https://github.com/WorksApplications/sudachi.rs) / [SudachiDict](https://github.com/WorksApplications/SudachiDict) | 複合語を部品に分ける | Apache-2.0 |
+| [wordfreq](https://github.com/rspeer/wordfreq/)（Robyn Speer） | 単語の出現頻度（Zipf 値） | Apache-2.0 |
+
+### 考え方のもとになった研究
+点数の設計は、次の研究の考え方を借りています。式や重みは、この道具のために手で決めたもので、研究の値をそのまま使ってはいません。
+
+- 文の中の難しさ（`scorer.py`）
+  - 係り受けの距離と、係り先を待つ負荷: Gibson, E. (1998). *Linguistic complexity: Locality of syntactic dependencies*（依存局所性理論）
+  - 入れ子の限界、袋小路文、単語の頻度効果: 心理言語学の文処理研究の一般的な知見
+- 中身の難しさと、見せ方の難しさの区別
+  - Sweller, J. (1994). *Cognitive load during problem solving*（認知負荷理論。内在的負荷と外在的負荷）
+  - Kintsch, W. & Keenan, J. (1973) ほか、Kintsch の命題分析（文章を命題に分け、命題の数と新しい概念の数で読みやすさを見る）。構造化（`rikai.py`）はこれに近い発想
+- 文のつながりの読みにくさ（`c_metrics.py`）
+  - Halliday, M.A.K. & Hasan, R. (1976). *Cohesion in English*（結束性）
+  - Graesser, A.C., McNamara, D.S. ら (2004). *Coh-Metrix*（文のつながりを多数の指標で測る道具）
+  - Givón, T. (1983). *Topic Continuity in Discourse*（referential distance。指す先まで何節さかのぼるか）
+  - Grosz, Joshi & Weinstein (1995). *Centering*、Barzilay & Lapata (2008). *Entity Grid*（話題の中心の移り方）
+  - Pitler, E. & Nenkova, A. (2008). *Revisiting Readability*（談話の指標が読みやすさの予測に効く）
+
+### 試験に使った文章
+skill の調整には、著作権の切れた小説（青空文庫: 横光利一『機械』、小栗虫太郎『黒死館殺人事件』、中島敦『山月記』）、法令（e-Gov 法令検索: 特定商取引法 第九条）、公的機関の公開文書（日本銀行の総裁記者会見、内閣府の経済財政白書、金融庁の審議会議事録）を使いました。このリポジトリには含めていません。
